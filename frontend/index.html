@@ -1,0 +1,37 @@
+<!-- frontend/index.html -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Descargar MP3 de YouTube</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body style="font-family: sans-serif; text-align: center; margin-top: 50px;">
+  <h1>Convertidor YouTube a MP3</h1>
+  <input type="text" id="url" placeholder="Pega el enlace de YouTube" style="width: 300px; padding: 10px;">
+  <br><br>
+  <button onclick="descargar()" style="padding: 10px 20px;">Descargar MP3</button>
+
+  <script>
+    async function descargar() {
+      const url = document.getElementById('url').value;
+      const response = await fetch('https://TU_BACKEND_URL.onrender.com/download', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ url })
+      });
+
+      if (response.ok) {
+        const blob = await response.blob();
+        const link = document.createElement('a');
+        link.href = window.URL.createObjectURL(blob);
+        link.download = 'audio.mp3';
+        link.click();
+      } else {
+        alert('Error al descargar');
+      }
+    }
+  </script>
+</body>
+</html>
+
